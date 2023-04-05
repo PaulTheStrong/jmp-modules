@@ -1,0 +1,2 @@
+module jmp.service.api {
+}

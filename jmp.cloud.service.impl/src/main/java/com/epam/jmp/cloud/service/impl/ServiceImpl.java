@@ -11,8 +11,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
-import java.util.stream.Collectors;
+import java.util.function.Predicate;
 
 public class ServiceImpl implements Service {
 
@@ -28,10 +27,20 @@ public class ServiceImpl implements Service {
     }
 
     @Override
-    public Optional<Subscription> getSubscriptionByBankCardNumber(String cardNumber) {
-        return subscriptions.values().stream().flatMap(Collection::stream)
+    public Subscription getSubscriptionByBankCardNumber(String cardNumber) {
+        return subscriptions.values().stream()
+            .flatMap(Collection::stream)
             .filter(subscription -> subscription.getBankcard().equals(cardNumber))
-            .findFirst();
+            .findFirst()
+            .orElseThrow(SubscriptionNotFoundException::new);
+    }
+
+    @Override
+    public List<Subscription> getAllSubscriptionsByCondition(Predicate<Subscription> predicate) {
+        return subscriptions.values().stream()
+            .flatMap(Collection::stream)
+            .filter(predicate)
+            .toList();
     }
 
     @Override

@@ -1,8 +1,8 @@
 package com.epam.jmp.dto.model;
 
-import lombok.RequiredArgsConstructor;
+import lombok.Data;
 
-@RequiredArgsConstructor
+@Data
 public abstract class BankCard {
     protected final String number;
     protected final User user;
